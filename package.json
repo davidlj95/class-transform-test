@@ -1,0 +1,31 @@
+{
+  "name": "class-transform-test",
+  "version": "1.0.0",
+  "description": "Test to see how class-transform lib works",
+  "main": "out/tsc/index.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidlj95/class-transformer-test.git"
+  },
+  "keywords": [
+    "class-transformer",
+    "json",
+    "dto"
+  ],
+  "author": "davidlj95",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davidlj95/class-transformer-test/issues"
+  },
+  "homepage": "https://github.com/davidlj95/class-transformer-test#readme",
+  "dependencies": {
+    "class-transformer": "^0.2.0",
+    "es6-shim": "^0.35.5",
+    "reflect-metadata": "^0.1.13",
+    "typescript": "^3.3.4000"
+  }
+}
