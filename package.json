@@ -4,6 +4,7 @@
   "description": "Test to see how class-transform lib works",
   "main": "out/tsc/index.js",
   "scripts": {
+    "start": "node .",
     "build": "tsc -p .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,6 +25,8 @@
   "homepage": "https://github.com/davidlj95/class-transformer-test#readme",
   "dependencies": {
     "class-transformer": "^0.2.0",
+    "class-transformer-validator": "^0.6.0",
+    "class-validator": "^0.9.1",
     "es6-shim": "^0.35.5",
     "reflect-metadata": "^0.1.13",
     "typescript": "^3.3.4000"

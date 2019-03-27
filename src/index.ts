@@ -1,9 +1,17 @@
 import "reflect-metadata";
 import "es6-shim";
 import {plainToClass, Type} from "class-transformer";
+import {IsNotEmpty, ValidateNested} from "class-validator";
+import {transformAndValidateSync} from "class-transformer-validator";
 
+// Sample class
 class Address {
-    constructor(public street: string, public city: string) {
+
+    @IsNotEmpty() public city: string;
+
+    constructor(public street: string,
+                city: string) {
+        this.city = city;
     }
 
     isNear() {
@@ -11,8 +19,11 @@ class Address {
     }
 }
 
+// Sample class with a nested type
 class User {
-    @Type(() => Address) public address: Address;
+    @Type(() => Address)
+    @ValidateNested()
+    public address: Address;
 
     constructor(
         public id: number,
@@ -32,6 +43,7 @@ class User {
     }
 }
 
+// Some valid users
 let usersData = [
     {
         "id": 1,
@@ -64,9 +76,39 @@ let usersData = [
         }
     }];
 
-const users = plainToClass(User, usersData);
+// Parse them!
+try {
+    console.info("Will it automagically create the objects from plain JSONs?\n");
+    const users = plainToClass(User, usersData);
+    users.forEach((user) => {
+        console.log(`${user.firstName} is ${user.isAdult() ? "adult" : "young or elder"}`);
+        console.log(`   and lives in ${user.address.city} (near: ${user.address.isNear()})`)
+    });
+    console.info("\nYeahh!\n")
+} catch (error) {
+    console.error(error);
+    console.info("\nNope :(\n");
+}
 
-users.forEach((user) => {
-    console.log(`${user.firstName} is ${user.isAdult() ? "adult" : "young or elder"}`);
-    console.log(`   and lives in ${user.address.city} (near: ${user.address.isNear()})`)
-});
+// Now some invalid
+let invalidUsersData = [
+    {
+        "id": 2,
+        "firstName": "Maria Lluïsa",
+        "lastName": "Plana",
+        "age": 26,
+        "address": {
+            "street": "Fake"
+            // I will skip the city because reasons (make it fail)
+        }
+    }
+];
+
+console.info("Will it detect now a failure inside a detected object?");
+try {
+    const users = transformAndValidateSync(User, invalidUsersData);
+    console.info("\nNope, error was not found\n");
+} catch (error) {
+    console.error(error);
+    console.info("\nSeems so!!!\n")
+}
